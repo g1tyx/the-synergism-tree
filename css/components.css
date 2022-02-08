@@ -26,9 +26,8 @@
 .buyable {
 	height: 200px;
 	width: 200px;
-	border-radius: 25%;
-	border: 2px solid;
-	border-color: rgba(0, 0, 0, 0.125);
+	border-radius: 8px;
+	border: white 2px solid;
 	font-size: 10px;
 	position:relative;
 }
