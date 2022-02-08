@@ -5,15 +5,15 @@ let modInfo = {
 	pointsName: "Coins",
 	modFiles: ["layers.js", "tree.js"],
 
-	discordName: "",
-	discordLink: "",
+	discordName: "My discord server",
+	discordLink: "https://discord.gg/7ahtMyv5hX",
 	initialStartPoints: new Decimal (100),
 	offlineLimit: 0,
 }
 
 let VERSION = {
-	num: "0.002",
-	name: "Time Acceleration",
+	num: "0.003",
+	name: "Multiplication",
 }
 
 let changelog = `
@@ -26,6 +26,13 @@ let changelog = `
 		- C: Minor fixes
 <br><br><br>
 <h1>Changelog:</h1><br><br>
+	<h3 style='color:red'>v0.003</h3><br>
+		- Added Coin Mints.<br>
+		- Added Alchemies.<br>
+		- Added Multipliers.<br>
+		- Added discord link.<br>
+		Endgame: 1,000,000 Coins<br>
+	<br>
 	<h3 style='color:red'>v0.002</h3><br>
 		- Added Printers.<br>
 		- Added Accelerators.<br>
@@ -63,7 +70,7 @@ var displayThings = [
 ]
 
 function isEndgame() {
-	return player.points.gte(new Decimal("100000"))
+	return player.points.gte(new Decimal("1e6"))
 }
 
 var backgroundStyle = {
