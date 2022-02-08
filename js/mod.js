@@ -12,13 +12,14 @@ let modInfo = {
 }
 
 let VERSION = {
-	num: "0.003",
-	name: "Multiplication",
+	num: "0.004",
+	name: "Inflation",
 }
 
 let changelog = `
-<h3 style='color:red'>Inspired by: <a href='https://pseudo-corp.github.io/SynergismOfficial/' target="_blank">Synergism</a></h3>
-<br><br><br>
+<h3 style='color:red'>Inspired by: <a href='https://pseudo-corp.github.io/SynergismOfficial/' target="_blank">Synergism</a></h3><br> 
+<h3 style='color:red'>Synergism discord: <a href='https://www.discord.gg/ameCknq' target="_blank">Discord</a></h3><br>
+<br><br>
 <h1>Version info:</h1><br><br>
 	<h3 style='color:red'>vA.B.C</h3><br>
 		- A: Major update<br>
@@ -26,6 +27,11 @@ let changelog = `
 		- C: Minor fixes
 <br><br><br>
 <h1>Changelog:</h1><br><br>
+	<h3 style='color:red'>v0.004</h3><br>
+		- Added 5 Coin upgrades.<br>
+		- Added discord link for synergism.<br>
+		Endgame: 1.00e15 Coins<br>
+	<br>
 	<h3 style='color:red'>v0.003</h3><br>
 		- Added Coin Mints.<br>
 		- Added Alchemies.<br>
@@ -70,7 +76,7 @@ var displayThings = [
 ]
 
 function isEndgame() {
-	return player.points.gte(new Decimal("1e6"))
+	return player.points.gte(new Decimal("1e15"))
 }
 
 var backgroundStyle = {

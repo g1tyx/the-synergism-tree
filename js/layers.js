@@ -30,11 +30,11 @@ addLayer("c", {
 
 		let mulBoost = accelerators.mul(multipliers)
 
-		let workers = player[this.layer].workers.count.add(player[this.layer].workers.amount).mul(10).mul(mulBoost)
-		let investments = player[this.layer].investments.count.add(player[this.layer].investments.amount).mul(100).mul(mulBoost)
-		let printers = player[this.layer].printers.count.add(player[this.layer].printers.amount).mul(1000).mul(mulBoost)
-		let coin_mints = player[this.layer].coin_mints.count.add(player[this.layer].coin_mints.amount).mul(1e4).mul(mulBoost)
-		let alchemies = player[this.layer].alchemies.count.add(player[this.layer].alchemies.amount).mul(1e5).mul(mulBoost)
+		let workers = player[this.layer].workers.count.add(player[this.layer].workers.amount).mul(10).mul(mulBoost).mul(upgradeEffect('cu', 11))
+		let investments = player[this.layer].investments.count.add(player[this.layer].investments.amount).mul(100).mul(mulBoost).mul(upgradeEffect('cu', 12))
+		let printers = player[this.layer].printers.count.add(player[this.layer].printers.amount).mul(1000).mul(mulBoost).mul(upgradeEffect('cu', 13))
+		let coin_mints = player[this.layer].coin_mints.count.add(player[this.layer].coin_mints.amount).mul(1e4).mul(mulBoost).mul(upgradeEffect('cu', 14))
+		let alchemies = player[this.layer].alchemies.count.add(player[this.layer].alchemies.amount).mul(1e5).mul(mulBoost).mul(upgradeEffect('cu', 15))
 		
 		player[this.layer].workers.second = workers
 		player[this.layer].investments.second = investments
@@ -49,7 +49,7 @@ addLayer("c", {
 	effect() { return player[this.layer].second },
 	tabFormat: [
 		function() {
-			return ["display-text", `You have <h2 style='color:gold;text-shadow:#ffff00 0px 0px 10px'>${format(player.points)}</h2> Coins`]
+			return ["display-text", `You have <h2 style='color:gold;text-shadow:gold 0px 0px 10px'>${format(player.points)}</h2> Coins`]
 		},
 		function() {
 			return ["display-text", `(${format(tmp[this.layer].effect)}/sec)`]
@@ -228,6 +228,108 @@ addLayer("c", {
 				s["color"] = "white"
 				return s
 			},
+		},
+	},
+	branches: [
+		["cu", function() { return player.cu.unlocked ? "#ffeb00" : "#303030" }, 25],
+	],
+})
+
+addLayer("cu", {
+    name: "Coin upgrades",
+    symbol: "cu",
+	resource: "Coins",
+	baseResource: "Coins",
+	requires: new Decimal(1e6),
+	resetsNothing() { return true },
+	tooltip() { return player[this.layer].unlocked ? "" : "Reach 1,000,000 Coins to unlock" },
+    position: 1,
+    startData() { return {
+        unlocked: false,
+		shown: false,
+    }},
+    color: "yellow",
+    type: "none",
+	displayRow: 0,
+    row: 0,
+    layerShown(){ return player[this.layer].shown },
+	update() {
+		if (!player[this.layer].unlocked) if (player.points.gte(1e6)) player[this.layer].unlocked = true
+		if (!player[this.layer].shown) if (player.points.gte(1e5)) player[this.layer].shown = true
+	},
+	tabFormat: [
+		function() {
+			return ["display-text", `You have <h2 style='color:gold;text-shadow:gold 0px 0px 10px'>${format(player.points)}</h2> Coins`]
+		},
+		function() {
+			return ["display-text", `(${format(tmp.c.effect)}/sec)`]
+		},
+		["blank", "25px"],
+		["h-line", "100%", {"border-color":"gold"}],
+		["blank", "25px"],
+		["display-text", "<h3 style='color:gold'>Coin upgrades</h3>"],
+		"upgrades",
+	],
+	upgrades: {
+		11: {
+			cost() { return new Decimal(1e6) },
+			currencyLocation() { return player },
+			currencyInternalName: "points",
+			fullDisplay() { return "" },
+			style() { return {
+					"height":"60px","width":"60px","border-color":"gold","background-color":(hasUpgrade(this.layer, this.id) ? "yellow" : "#0f0f0f")
+				} 
+			},
+			tooltip() { return `<span style='color:yellow'>Cost: ${format(this.cost())}</span><br><span style='color:pink'>Effect: Worker production x1,000</span>` },
+			effect() { return hasUpgrade(this.layer, this.id) ? new Decimal(1000) : new Decimal(1) },
+		},
+		12: {
+			cost() { return new Decimal(1e9) },
+			currencyLocation() { return player },
+			currencyInternalName: "points",
+			fullDisplay() { return "" },
+			style() { return {
+					"height":"60px","width":"60px","border-color":"gold","background-color":(hasUpgrade(this.layer, this.id) ? "yellow" : "#0f0f0f")
+				} 
+			},
+			tooltip() { return `<span style='color:yellow'>Cost: ${format(this.cost())}</span><br><span style='color:pink'>Effect: Investment production x1,000</span>` },
+			effect() { return hasUpgrade(this.layer, this.id) ? new Decimal(1000) : new Decimal(1) },
+		},
+		13: {
+			cost() { return new Decimal(1e10) },
+			currencyLocation() { return player },
+			currencyInternalName: "points",
+			fullDisplay() { return "" },
+			style() { return {
+					"height":"60px","width":"60px","border-color":"gold","background-color":(hasUpgrade(this.layer, this.id) ? "yellow" : "#0f0f0f")
+				} 
+			},
+			tooltip() { return `<span style='color:yellow'>Cost: ${format(this.cost())}</span><br><span style='color:pink'>Effect: Printer production x1,000</span>` },
+			effect() { return hasUpgrade(this.layer, this.id) ? new Decimal(1000) : new Decimal(1) },
+		},
+		14: {
+			cost() { return new Decimal(1e11) },
+			currencyLocation() { return player },
+			currencyInternalName: "points",
+			fullDisplay() { return "" },
+			style() { return {
+					"height":"60px","width":"60px","border-color":"gold","background-color":(hasUpgrade(this.layer, this.id) ? "yellow" : "#0f0f0f")
+				} 
+			},
+			tooltip() { return `<span style='color:yellow'>Cost: ${format(this.cost())}</span><br><span style='color:pink'>Effect: Coin Mint production x1,000</span>` },
+			effect() { return hasUpgrade(this.layer, this.id) ? new Decimal(1000) : new Decimal(1) },
+		},
+		15: {
+			cost() { return new Decimal(1e12) },
+			currencyLocation() { return player },
+			currencyInternalName: "points",
+			fullDisplay() { return "" },
+			style() { return {
+					"height":"60px","width":"60px","border-color":"gold","background-color":(hasUpgrade(this.layer, this.id) ? "yellow" : "#0f0f0f")
+				} 
+			},
+			tooltip() { return `<span style='color:yellow'>Cost: ${format(this.cost())}</span><br><span style='color:pink'>Effect: Alchemy production x1,000</span>` },
+			effect() { return hasUpgrade(this.layer, this.id) ? new Decimal(1000) : new Decimal(1) },
 		},
 	},
 })
