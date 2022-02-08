@@ -12,21 +12,25 @@ let modInfo = {
 }
 
 let VERSION = {
-	num: "0.001",
-	name: "Initial release",
+	num: "0.002",
+	name: "Time Acceleration",
 }
 
 let changelog = `
-<h3>Inspired by: <a href='https://pseudo-corp.github.io/SynergismOfficial/'>Synergism</a></h3>
+<h3 style='color:red'>Inspired by: <a href='https://pseudo-corp.github.io/SynergismOfficial/' target="_blank">Synergism</a></h3>
 <br><br><br>
 <h1>Version info:</h1><br><br>
-	<h3>vA.B.C</h3><br>
+	<h3 style='color:red'>vA.B.C</h3><br>
 		- A: Major update<br>
 		- B: Small update<br>
 		- C: Minor fixes
 <br><br><br>
 <h1>Changelog:</h1><br><br>
-	<h3>v0.001</h3><br>
+	<h3 style='color:red'>v0.002</h3><br>
+		- Added Printers.<br>
+		- Added Accelerators.<br>
+	<br>
+	<h3 style='color:red'>v0.001</h3><br>
 		- Added 2 buyables.<br>
 		- Added coins.`
 
@@ -58,7 +62,7 @@ var displayThings = [
 ]
 
 function isEndgame() {
-	return player.points.gte(new Decimal("e280000000"))
+	return player.points.gte(new Decimal("100000"))
 }
 
 var backgroundStyle = {

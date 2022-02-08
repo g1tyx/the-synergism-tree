@@ -10,6 +10,9 @@ addLayer("c", {
 
 		workers: { count: new Decimal(0), amount: new Decimal(0), second: new Decimal(0) },
 		investments: { count: new Decimal(0), amount: new Decimal(0), second: new Decimal(0) },
+		printers: { count: new Decimal(0), amount: new Decimal(0), second: new Decimal(0) },
+
+		accelerators: { count: new Decimal(0), amount: new Decimal(0), second: new Decimal(0), power: new Decimal(1.1) },
     }},
     color: "gold",
     type: "none",
@@ -19,13 +22,19 @@ addLayer("c", {
 	update() {
 		player[this.layer].points = player.points
 
-		let workers = player[this.layer].workers.count.add(player[this.layer].workers.amount).mul(10)
-		let investments = player[this.layer].investments.count.add(player[this.layer].investments.amount).mul(100)
+		let accelerators = player[this.layer].accelerators.power.pow(player[this.layer].accelerators.count.add(player[this.layer].accelerators.amount))
+
+		let mulBoost = accelerators
+
+		let workers = player[this.layer].workers.count.add(player[this.layer].workers.amount).mul(10).mul(mulBoost)
+		let investments = player[this.layer].investments.count.add(player[this.layer].investments.amount).mul(100).mul(mulBoost)
+		let printers = player[this.layer].printers.count.add(player[this.layer].printers.amount).mul(1000).mul(mulBoost)
 		
 		player[this.layer].workers.second = workers
 		player[this.layer].investments.second = investments
+		player[this.layer].printers.second = printers
 
-		let total = workers.add(investments)
+		let total = workers.add(investments).add(printers)
 
 		player[this.layer].second = total
 	},
@@ -33,6 +42,9 @@ addLayer("c", {
 	tabFormat: [
 		function() {
 			return ["display-text", `You have <h2 style='color:gold;text-shadow:#ffff00 0px 0px 10px'>${format(player.points)}</h2> Coins`]
+		},
+		function() {
+			return ["display-text", `(${format(tmp[this.layer].effect)}/sec)`]
 		},
 		["blank", "25px"],
 		"h-line",
@@ -50,6 +62,23 @@ addLayer("c", {
 					["blank", ["150px", "10px"]],
 					["buyable", "12"],
 					["raw-html", `<div style='width:250px;text-align:right'>Coins/Sec: ${format(player[this.layer].investments.second)} [${format(player[this.layer].investments.second.div(player[this.layer].second.max(1)).mul(100).min(100).max(0))}%]</div>`, {"color":"gold"}],
+				]],
+				["row", [
+					["raw-html", `<div style='width:250px;text-align:left'>Printers: ${format(player[this.layer].printers.count)} [+${format(player[this.layer].printers.amount)}]</div>`, {"color":"gold"}],
+					["blank", ["150px", "10px"]],
+					["buyable", "13"],
+					["raw-html", `<div style='width:250px;text-align:right'>Coins/Sec: ${format(player[this.layer].printers.second)} [${format(player[this.layer].printers.second.div(player[this.layer].second.max(1)).mul(100).min(100).max(0))}%]</div>`, {"color":"gold"}],
+				]],
+			]]
+		},
+		["blank", "100px"],
+		function() {
+			return ['column', [
+				["row", [
+					["raw-html", `<div style='width:250px;text-align:left'>Accelerators: ${format(player[this.layer].accelerators.count)} [+${format(player[this.layer].accelerators.amount)}]</div>`, {"color":"gold"}],
+					["blank", ["150px", "10px"]],
+					["buyable", "21"],
+					["raw-html", `<div style='width:250px;text-align:right'>Acceleration Power: ${format(player[this.layer].accelerators.power.sub(1).mul(100).min(100).max(0))}%<br>Multiplier: ${format(player[this.layer].accelerators.power.pow(player[this.layer].accelerators.count.add(player[this.layer].accelerators.amount)))}x</div>`, {"color":"cyan"}],
 				]],
 			]]
 		},
@@ -79,6 +108,40 @@ addLayer("c", {
 			buy() {
 				player.points = player.points.sub(this.cost())
 				player[this.layer].investments.count = player[this.layer].investments.count.add(1)
+			},
+			style() {
+				let s = {};
+				if (this.canAfford()) s["background-color"] = "#666"; else s["background-color"] = "transparent"
+				s["width"] = "150px"
+				s["height"] = "30px"
+				s["color"] = "white"
+				return s
+			},
+		},
+		13: {
+			cost() { return new Decimal(3.814).pow(player[this.layer].printers.count).mul(40000) },
+			display() { return `Cost: ${format(this.cost())} Coins` },
+			canAfford() { return player.points.gte(this.cost()) },
+			buy() {
+				player.points = player.points.sub(this.cost())
+				player[this.layer].printers.count = player[this.layer].printers.count.add(1)
+			},
+			style() {
+				let s = {};
+				if (this.canAfford()) s["background-color"] = "#666"; else s["background-color"] = "transparent"
+				s["width"] = "150px"
+				s["height"] = "30px"
+				s["color"] = "white"
+				return s
+			},
+		},
+		21: {
+			cost() { return new Decimal(4).pow(player[this.layer].accelerators.count).mul(500) },
+			display() { return `Cost: ${format(this.cost())} Coins` },
+			canAfford() { return player.points.gte(this.cost()) },
+			buy() {
+				player.points = player.points.sub(this.cost())
+				player[this.layer].accelerators.count = player[this.layer].accelerators.count.add(1)
 			},
 			style() {
 				let s = {};
