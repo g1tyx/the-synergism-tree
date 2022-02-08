@@ -29,6 +29,7 @@ let changelog = `
 	<h3 style='color:red'>v0.002</h3><br>
 		- Added Printers.<br>
 		- Added Accelerators.<br>
+		Endgame: 100,000 Coins
 	<br>
 	<h3 style='color:red'>v0.001</h3><br>
 		- Added 2 buyables.<br>
