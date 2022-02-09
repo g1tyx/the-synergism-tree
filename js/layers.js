@@ -342,7 +342,7 @@ addLayer("d", {
 	baseResource: "Coins",
 	baseAmount() { return player.points },
 	requires: new Decimal(1e15),
-	getResetGain() { return player.points.div(1e13) },
+	getResetGain() { return player.points.div(1e13).floor() },
 	getNextAt() { return player.points.sub(this.getResetGain().mul(1e13)).max(0) },
 	canReset() { return player.points.gte(1e15) },
 	prestigeButtonText() { return this.getResetGain().gte(100) ? `Reset for <b>${format(this.getResetGain())}</b> Diamonds` : `Reset for +<b>${format(this.getResetGain())}</b> Diamonds<br>Next at ${format(this.getNextAt())} Coins` },

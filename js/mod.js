@@ -12,7 +12,7 @@ let modInfo = {
 }
 
 let VERSION = {
-	num: "0.005",
+	num: "0.005.1",
 	name: "Shiny",
 }
 
@@ -27,6 +27,10 @@ let changelog = `
 		- C: Minor fixes
 <br><br><br>
 <h1>Changelog:</h1><br><br>
+	<h3 style='color:red'>v0.005.1</h3><br>
+		- Fixed diamond button being white.<br>
+		- Changed diamond resets to be rounded down.<br>
+	<br>
 	<h3 style='color:red'>v0.005</h3><br>
 		- Added Diamond layer.<br>
 		- Added Diamonds.<br>
