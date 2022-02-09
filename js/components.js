@@ -217,7 +217,7 @@ function loadVue() {
 	Vue.component('toggle', {
 		props: ['layer', 'data'],
 		template: `
-		<button class="smallUpg can" v-bind:style="{'background-color': tmp[data[0]].color}" v-on:click="toggleAuto(data)">{{player[data[0]][data[1]]?"ON":"OFF"}}</button>
+		<button class="smallUpg can" v-bind:style="{'border-color': tmp[data[0]].color}" v-on:click="toggleAuto(data)">{{player[data[0]][data[1]]?"ON":"OFF"}}</button>
 		`
 	})
 
@@ -225,7 +225,7 @@ function loadVue() {
 		props: ['layer', 'data'],
 		template: `
 		<button v-if="(tmp[layer].type !== 'none')" v-bind:class="{ [layer]: true, reset: true, locked: !tmp[layer].canReset, can: tmp[layer].canReset}"
-			v-bind:style="[tmp[layer].canReset ? {'background-color': tmp[layer].color} : {}, tmp[layer].componentStyles['prestige-button']]"
+			v-bind:style="[tmp[layer].canReset ? {'border-color': tmp[layer].color} : {}, tmp[layer].componentStyles['prestige-button']]"
 			v-html="prestigeButtonText(layer)" v-on:click="doReset(layer)">
 		</button>
 		`
@@ -434,7 +434,7 @@ function loadVue() {
 			currentTab() {return player.subtabs[layer][data]}
 		},
 		template: `
-		<div v-if="tmp[layer].microtabs" :style="{'border-style': 'solid'}">
+		<div v-if="tmp[layer].microtabs">
 			<div class="upgTable instant">
 				<tab-buttons :layer="layer" :data="tmp[layer].microtabs[data]" :name="data" v-bind:style="tmp[layer].componentStyles['tab-buttons']"></tab-buttons>
 			</div>

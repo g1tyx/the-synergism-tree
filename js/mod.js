@@ -12,8 +12,8 @@ let modInfo = {
 }
 
 let VERSION = {
-	num: "0.004",
-	name: "Inflation",
+	num: "0.005",
+	name: "Shiny",
 }
 
 let changelog = `
@@ -27,17 +27,24 @@ let changelog = `
 		- C: Minor fixes
 <br><br><br>
 <h1>Changelog:</h1><br><br>
+	<h3 style='color:red'>v0.005</h3><br>
+		- Added Diamond layer.<br>
+		- Added Diamonds.<br>
+		- Added placeholders for next update.<br>
+		Endgame: 100 Dimonds.<br>
+		Challenge for grinders: 1,000 Diamonds.<br>
+	<br>
 	<h3 style='color:red'>v0.004</h3><br>
 		- Added 5 Coin upgrades.<br>
 		- Added discord link for synergism.<br>
-		Endgame: 1.00e15 Coins<br>
+		Endgame: 1.00e15 Coins.<br>
 	<br>
 	<h3 style='color:red'>v0.003</h3><br>
 		- Added Coin Mints.<br>
 		- Added Alchemies.<br>
 		- Added Multipliers.<br>
 		- Added discord link.<br>
-		Endgame: 1,000,000 Coins<br>
+		Endgame: 1,000,000 Coins.<br>
 	<br>
 	<h3 style='color:red'>v0.002</h3><br>
 		- Added Printers.<br>
@@ -76,7 +83,7 @@ var displayThings = [
 ]
 
 function isEndgame() {
-	return player.points.gte(new Decimal("1e15"))
+	return player.d.points.gte(100)
 }
 
 var backgroundStyle = {

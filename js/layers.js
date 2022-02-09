@@ -232,6 +232,7 @@ addLayer("c", {
 	},
 	branches: [
 		["cu", function() { return player.cu.unlocked ? "#ffeb00" : "#303030" }, 25],
+		["d", function() { return player.d.unlocked ? "#80f98f" : "#303030" }, 25],
 	],
 })
 
@@ -252,7 +253,7 @@ addLayer("cu", {
     type: "none",
 	displayRow: 0,
     row: 0,
-    layerShown(){ return player[this.layer].shown },
+    layerShown(){ return player[this.layer].shown || player[this.layer].unlocked },
 	update() {
 		if (!player[this.layer].unlocked) if (player.points.gte(1e6)) player[this.layer].unlocked = true
 		if (!player[this.layer].shown) if (player.points.gte(1e5)) player[this.layer].shown = true
@@ -330,6 +331,70 @@ addLayer("cu", {
 			},
 			tooltip() { return `<span style='color:yellow'>Cost: ${format(this.cost())}</span><br><span style='color:pink'>Effect: Alchemy production x1,000</span>` },
 			effect() { return hasUpgrade(this.layer, this.id) ? new Decimal(1000) : new Decimal(1) },
+		},
+	},
+})
+
+addLayer("d", {
+    name: "Diamonds",
+    symbol: "D",
+	resource: "Diamonds",
+	baseResource: "Coins",
+	baseAmount() { return player.points },
+	requires: new Decimal(1e15),
+	getResetGain() { return player.points.div(1e13) },
+	getNextAt() { return player.points.sub(this.getResetGain().mul(1e13)).max(0) },
+	canReset() { return player.points.gte(1e15) },
+	prestigeButtonText() { return this.getResetGain().gte(100) ? `Reset for <b>${format(this.getResetGain())}</b> Diamonds` : `Reset for +<b>${format(this.getResetGain())}</b> Diamonds<br>Next at ${format(this.getNextAt())} Coins` },
+    position: 0,
+    startData() { return {
+        unlocked: true,
+		points: new Decimal(0),
+		autoWorker: false,
+    }},
+    color: "cyan",
+    type: "custom",
+	displayRow: 1,
+    row: 1,
+    layerShown(){ return player[this.layer].unlocked || player.points.gte(1e13) },
+	tabFormat: [
+		function() {
+			return ["display-text", `You have <h2 style='color:cyan;text-shadow:cyan 0px 0px 10px'>${format(player[this.layer].points)}</h2> Diamonds`]
+		},
+		["blank", "25px"],
+		["h-line", "100%", {"border-color":"cyan"}],
+		["blank", "25px"],
+		["prestige-button", {"color":"cyan"}],
+		"blank",
+		["display-text", "Require: 1.00e15 Coins"],
+		["blank", "25px"],
+		["h-line", "100%", {"border-color":"cyan"}],
+		["microtabs", "Main"],
+	],
+	microtabs: {
+		Main: {
+			Buildings: {
+				content: [
+					["h-line", "100%", {"border-color":"cyan"}],
+					["blank", "25px"],
+				],
+			},
+			Milestones: {
+				content: [
+					["h-line", "100%", {"border-color":"cyan"}],
+					["blank", "25px"],
+					"milestones",
+				],
+			},
+		},
+	},
+	milestones: {
+		0: {
+			requirementDescription: "1,000 Diamonds",
+			effectDescription: "Autobuy Workers once per tick (Not implimented yet)",
+			done() { return player[this.layer].points.gte(1e3) },
+			style() { return {"background-color":(hasMilestone(this.layer,this.id)?"rgba(0,255,255,0.5)":"transparent"),"border-color":"cyan","border-radius":"10px 10px 10px 10px"} },
+			toggles: [["d", "autoWorker"]],
 		},
 	},
 })
