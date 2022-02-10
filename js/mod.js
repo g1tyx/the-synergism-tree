@@ -12,8 +12,8 @@ let modInfo = {
 }
 
 let VERSION = {
-	num: "0.005.1",
-	name: "Shiny",
+	num: "0.006",
+	name: "Quarky",
 }
 
 let changelog = `
@@ -27,6 +27,19 @@ let changelog = `
 		- C: Minor fixes
 <br><br><br>
 <h1>Changelog:</h1><br><br>
+	<h3 style='color:red'>v0.006</h3><br>
+		- Added 5 Diamond buildings.<br>
+		- Added Crystals.<br>
+		- Added Accelerator boosts.<br>
+		- Added Quarks.<br>
+		- Added Autobuyers.<br>
+		- Added Notification system.<br>
+		- Added Hotkeys to switch layer.<br>
+		- Added 15 Achievements.<br>
+		- Added Diamonds 5 upgrades.<br>
+		- Fixed some bugs.<br>
+		Endgame: 1.00e8 Dimonds.<br>
+	<br>
 	<h3 style='color:red'>v0.005.1</h3><br>
 		- Fixed diamond button being white.<br>
 		- Changed diamond resets to be rounded down.<br>
@@ -77,6 +90,7 @@ function getPointGen() {
 
 	let gain = new Decimal(0)
 	gain = gain.add(tmp.c.effect)
+	gain = gain.mul(tmp.d.effect)
 	return gain
 }
 
@@ -84,10 +98,11 @@ function addedPlayerData() { return {
 }}
 
 var displayThings = [
+	function() { return `<br><h3 style='color:lavender;text-shadow:lavender 0px 0px 2px'>You have ${format(player.c.quarks)} Quarks!</h3>` }
 ]
 
 function isEndgame() {
-	return player.d.points.gte(100)
+	return player.d.points.gte(1e8)
 }
 
 var backgroundStyle = {
