@@ -1,5 +1,5 @@
 let modInfo = {
-	name: "The Synergism Tree",
+	name: "协同树 - The Synergism Tree",
 	id: "TheSynergismTree",
 	author: "patfr",
 	pointsName: "Coins",
