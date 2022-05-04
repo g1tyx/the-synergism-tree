@@ -246,7 +246,7 @@ function NaNcheck(data) {
 			if (!NaNalert) {
 				clearInterval(interval);
 				NaNalert = true;
-				alert("Invalid value found in player, named '" + item + "'. Please let the creator of this mod know! You can refresh the page, and you will be un-NaNed.")
+				alert("在游戏中发现无效值，命名为 '" + item + "'. 请让这个模组的创造者知道！ 您可以刷新页面，您将被取消NaNed.")
 				return
 			}
 		}
@@ -271,10 +271,10 @@ function exportSave() {
 }
 function importSave(imported = undefined, forced = false) {
 	if (imported === undefined)
-		imported = prompt("Paste your save here");
+		imported = prompt("在此处粘贴您的存档");
 	try {
 		tempPlr = Object.assign(getStartPlayer(), JSON.parse(atob(imported)));
-		if (tempPlr.versionType != modInfo.id && !forced && !confirm("This save appears to be for a different mod! Are you sure you want to import?")) // Wrong save (use "Forced" to force it to accept.)
+		if (tempPlr.versionType != modInfo.id && !forced && !confirm("这个存档似乎是针对不同的模组！ 您确定要导入吗？")) // Wrong save (use "Forced" to force it to accept.)
 			return;
 		player = tempPlr;
 		player.versionType = modInfo.id;
